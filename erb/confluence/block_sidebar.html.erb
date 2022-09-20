@@ -1,8 +1,16 @@
-<%#encoding:UTF-8%><div<%= @id && %( id="#{@id}") %> class="<%= ['sidebarblock',role].compact * ' ' %>">
-<div class="content"><%
-if title? %>
-<div class="title"><%= title %></div><%
-end %>
-<%= content %>
-</div>
+<%# encoding:UTF-8
+%><div<%= @id && %( id="#{@id}") %> class="<%= [ 'sidebarblock', role ].compact * ' ' %>">
+	<ac:structured-macro
+			ac:macro-id="d8f894cc-dbd0-4455-84f8-37e2b4c807e7"
+			ac:schema-version="1"
+			ac:name="panel"><%
+		%w[ borderColor bgColor titleColor borderWidth titleBGColor borderStyle title ] \
+			.filter { |param| attr?(param.downcase) } \
+			.each   { |param| %>
+		<ac:parameter ac:name="<%= param %>"><%= attr(param.downcase) %></ac:parameter><%
+		} %>
+		<ac:rich-text-body>
+	<%= content.gsub(/^/, "\t\t\t") %>
+		</ac:rich-text-body>
+	</ac:structured-macro>
 </div>

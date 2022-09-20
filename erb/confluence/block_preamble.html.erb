@@ -1,11 +1,26 @@
-<%#encoding:UTF-8%><div id="preamble">
-<div class="sectionbody">
-<%= content %>
-</div><%
-if (attr? :toc) && (attr? 'toc-placement', 'preamble') %>
-<div id="toc" class="<%= attr 'toc-class', 'toc' %>">
-<div id="toctitle"><%= attr 'toc-title' %></div>
-<%= converter.convert @document, 'outline' %>
-</div><%
-end %>
-</div>
+<%# encoding:UTF-8
+%><div id="preamble">
+	<ac:structured-macro
+			ac:macro-id="aa3da488-64af-4cf3-ba81-46df038f7297"
+			ac:schema-version="1"
+			ac:name="excerpt">
+		<ac:parameter ac:name="atlassian-macro-output-type">INLINE</ac:parameter>
+		<ac:rich-text-body>
+<%= content.gsub /^/, "\t\t\t" %>
+		</ac:rich-text-body>
+	</ac:structured-macro><%
+	if @document.attr?(:toc, 'preamble') || @document.attr?(:toc) && @document.attr?('toc-placement', 'preamble') %>
+	<div class="toc">
+		<ac:structured-macro
+			ac:macro-id="9d891244-230a-44b8-9100-8d711687e3cd"
+			ac:schema-version="1"
+			ac:name="toc"><%
+			%w[ maxLevel minLevel include outline indent absoluteUrl exclude style type class printable separator ] \
+						.filter { |param| @document.attr?("toc-#{param.downcase}") } \
+						.each   { |param| %>
+				<ac:parameter ac:name="<%=  param  %>"><%= @document.attr("toc-#{param.downcase}")  %></ac:parameter><%
+			} %>
+		</ac:structured-macro>
+	</div><%
+	end %>
+</div><!-- #preamble -->

@@ -1,15 +1,22 @@
-<%#encoding:UTF-8%><div<%= @id && %( id="#{@id}") %> class="<%= ['imageblock',@style,role].compact * ' ' %>"<%
-if (attr? :align) || (attr? :float)
-%> style="<%= [("text-align: #{attr :align};" if attr? :align),("float: #{attr :float};" if attr? :float)].compact * ' ' %>"<%
-end %>>
-<div class="content"><%
-if attr? :link %>
-<a class="image" href="<%= attr :link %>"><img src="<%= image_uri(attr :target) %>" alt="<%= attr :alt %>"<%= (attr? :width) ? %( width="#{attr :width}") : nil %><%= (attr? :height) ? %( height="#{attr :height}") : nil %>></a><%
-else %>
-<img src="<%= image_uri(attr :target) %>" alt="<%= attr :alt %>"<%= (attr? :width) ? %( width="#{attr :width}") : nil %><%= (attr? :height) ? %( height="#{attr :height}") : nil %>><%
-end %>
-</div><%
-if title? %>
-<div class="title"><%= captioned_title %></div><%
-end %>
+<%# encoding:UTF-8
+%><div<%= @id && %( id="#{@id}") %> class="<%= [ 'imageblock', @style, role ].compact * ' ' %>"><%
+	if attr? :link %>
+	<a class="image" href="<%= attr :link %>"><%
+	end %>
+	<ac:image<% if title? %>
+			ac:title="<%= captioned_title %>"<%
+			end; if attr?(:border) %>
+			ac:border="true"<%
+			end; if attr?(:alt) %>
+			ac:alt="<%= attr :alt %>"<%
+			end; if attr?(:width) %>
+			ac:width="<%= attr :width %>"<%
+			elsif attr?(:height) %>
+			ac:height="<%= attr :height %>"<%
+			end %>>
+		<ri:attachment ri:filename="<%= File.basename(attr(:target)) %>"/>
+	</ac:image><%
+	if attr? :link %>
+	</a><%
+	end %>
 </div>

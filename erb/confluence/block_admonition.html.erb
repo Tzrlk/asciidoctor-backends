@@ -1,21 +1,14 @@
-<%#encoding:UTF-8%><div<%= @id && %( id="#{@id}") %> class="<%= ['admonitionblock',(attr :name),role].compact * ' ' %>">
-<table>
-<tr>
-<td class="icon"><%
-if @document.attr? :icons, 'font' %>
-<i class="icon-<%= attr 'name' %>" title="<%= @caption %>"></i><%
-elsif @document.attr? :icons %>
-<img src="<%= icon_uri(attr :name) %>" alt="<%= @caption %>"><%
-else %>
-<div class="title"><%= @caption %></div><%
-end %>
-</td>
-<td class="content"><%
-if title? %>
-<div class="title"><%= title %></div><%
-end %>
-<%= content %>
-</td>
-</tr>
-</table>
+<%# encoding:UTF-8
+%><div<%= @id && %( id="#{@id}") %> class="<%= [ 'admonitionblock', (attr :name), role ].compact * ' ' %>">
+	<ac:structured-macro
+			ac:macro-id="7e12b5d1-34f8-4260-8879-2adbc22d7577"
+			ac:schema-version="1"
+			ac:name="note"><%
+		if title? %>
+		<ac:parameter ac:name="title"><%= title %></ac:parameter><%
+		end %>
+		<ac:rich-text-body>
+<%= content.gsub(/^/, "\t\t\t") %>
+		</ac:rich-text-body>
+	</ac:structured-macro>
 </div>
